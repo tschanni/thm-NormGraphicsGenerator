@@ -64,10 +64,14 @@ if(isfield(dim_val,'y_scale'))
     y_noscale = 0;
 end
 if(isfield(dim_val,'x_noscale'))
-    x_noscale = 1;
+    if(dim_val.x_noscale == 1)
+        x_noscale = 1;
+    end
 end
 if(isfield(dim_val,'y_noscale'))
-    y_noscale = 1;
+    if(dim_val.y_noscale == 1)
+        y_noscale = 1;
+    end
 end
 
 if(isfield(dim_val,'x_shift'))
