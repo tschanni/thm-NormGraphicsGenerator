@@ -53,7 +53,7 @@ myDim.x_label = '{\it{t}} / s';
 myDim.y_label = '{\it{I}} / A';
 
 
-myDim.arrows = [2.5,3,3.5,4.5];
+%myDim.arrows = [2.5,3,3.5,4.5];
 
 x = plot([1,2, 3, 4],[1,4, 5, 2]);
 hold on;
