@@ -53,7 +53,7 @@ myDim.x_label = '{\it{t}} / s';
 myDim.y_label = '{\it{I}} / A';
 
 
-%myDim.arrows = [2.5,3,3.5,4.5];
+myDim.arrows = [2.5,3,3.5,4.5];
 
 x = plot([1,2, 3, 4],[1,4, 5, 2]);
 hold on;
@@ -71,6 +71,7 @@ y = plot([1,2, 3, 4],[2,3, -1, 1],'r-');
 %plot([1 1], [5 6], 'r<');
 
 hold off;
+%current axes
 ah = gca();
 
 drawPaper(myDim,'testfile',ah);

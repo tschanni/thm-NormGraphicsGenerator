@@ -24,8 +24,8 @@ myDim.y_scale = 0.5;
 %Resolution
 
 %Shift
-%myDim.x_shift = -1; % Koordinatenursprung (0) verschieben in x-Richtung (+ nach links / - nach rechts)
-%myDim.y_shift = 2; % Koordinatenursprung (0) verschieben in y-Richtung
+%myDim.x_shift = -1; % Nullpunkt (0) verschieben in x-Richtung (+ nach links / - nach rechts)
+%myDim.y_shift = 2; % Nullpunkt (0) verschieben in y-Richtung
 
 %Label
 myDim.x_label = '{\it{t}} / s';
@@ -33,16 +33,6 @@ myDim.y_label = '{\it{I}} / A';
 
 
 
-%       - hline_ypos (array, optional): Array of horizontal line positions (default is empty).
-%       - vline_xpos (array, optional): Array of vertical line positions (default is empty).
-%       - x_tickres (double, optional): x-axis tick resolution (default is 0).
-%       - y_tickres (double, optional): y-axis tick resolution (default is 0).
-%       - arrows (matrix, optional): Matrix of arrow positions [x_start, y_start, x_end, y_end].
-%
-%       argfile (string, optional): Filename for saving the plot (default is 'test_kos').
-%
-%       valha (handle, optional): Handle for additional value axes (default is empty).
 
 
-
-drawPaper(myDim,'myexample1');
+drawPaper(myDim);
