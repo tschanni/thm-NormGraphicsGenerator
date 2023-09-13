@@ -23,8 +23,9 @@
 %   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %
 
-%
-function [] = drawPaper(dim_val) 
+% Returnvalues 
+% @curax = current chart
+function [curax] = drawPaper(dim_val) 
 
 % Value Initialisation dim_val
 
@@ -151,6 +152,18 @@ for ih = 1:length(h_cm)
 plot([x_cm_min x_cm_max],[h_cm(ih) h_cm(ih)],"k--");
 end
 
+%x-arrow
+X = [x_cm_min*1/x_cm  (x_cm_max+0.5)/x_cm];
+Y = [y_cm_orig*1/y_cm   y_cm_orig*1/y_cm];
+han = annotation('arrow',X,Y);
+han.LineWidth = 0.75;
+
+%y-arrow
+X = [x_cm_orig*1/x_cm x_cm_orig*1/x_cm];
+Y = [y_cm_min*1/y_cm   (y_cm_max+0.5)*1/y_cm];
+han = annotation('arrow',X,Y);
+han.LineWidth = 0.75;
+
 %axis y-label
 %dim = [X(1) Y(2)-0.05 .1 .1];
 Xanno = (x_cm_orig-0.4)*1/x_cm;
@@ -206,6 +219,11 @@ if(y_tickres)
 end
 end
 
+% xlim manual
+% xlim([x_min, x_max]);
+disp(x_min);
+disp(x_max);
+curax = gcf; 
 
 end
 
