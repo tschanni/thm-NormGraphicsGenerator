@@ -19,7 +19,8 @@ myDim.y_cm_max = 13; % Pfeilhoehe
 %Skala Einteilung mit noscale = an0/aus1
 myDim.x_scale = 0.5;
 myDim.y_scale = 0.5;
-%myDim.y_noscale = 1; 
+% myDim.y_noscale = 1;
+% myDim.x_noscale = 1;
 
 %Resolution
 
@@ -33,13 +34,17 @@ myDim.y_label = '{\it{I}} / A';
 
 
 % Problem: Skalierung des Plots stimmt nicht mit kariertem Grid überein
+% Plot resized sich immer wieder
+% valha übernehmen in DrawFunction, axes properties ???
 
 
 fig = drawPaper(myDim);
 % x1 = 0:pi/100:2*pi;
 x1 = linspace(0,10);
-y1 = x1;
+y1 = 3*x1;
 drawFunction(fig,x1,y1);
 x2 = linspace(0,10);
 y2 = cos(x2);
 drawFunction(fig,x2,y2);
+
+

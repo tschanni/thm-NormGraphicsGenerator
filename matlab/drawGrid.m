@@ -318,6 +318,7 @@ if(nargin >= 3)
     set(valha,'xtick',[],'Xcolor','none','box','off');
     set(valha,'ytick',[],'Ycolor','none','box','off');
     set(valha,'Color','none')
+
 end
 
 

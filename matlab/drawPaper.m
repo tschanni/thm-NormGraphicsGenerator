@@ -219,10 +219,6 @@ if(y_tickres)
 end
 end
 
-% xlim manual
-% xlim([x_min, x_max]);
-disp(x_min);
-disp(x_max);
 curax = gcf; 
 
 end
