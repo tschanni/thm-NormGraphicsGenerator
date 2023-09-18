@@ -30,20 +30,20 @@ function [curax] = drawPaper(dim_val)
 % Value Initialisation dim_val
 
 %Dimensions 
-x_cm = dim_val.x_cm;
-y_cm = dim_val.y_cm;
+x_cm = dim_val.x_cm; %required
+y_cm = dim_val.y_cm; %required
 
 %Origin KOS
-x_cm_orig = dim_val.x_cm_orig; 
-y_cm_orig = dim_val.y_cm_orig;
+x_cm_orig = dim_val.x_cm_orig; %required
+y_cm_orig = dim_val.y_cm_orig; %required
 
 %Minimum KOS
-x_cm_min = dim_val.x_cm_min;
-y_cm_min = dim_val.y_cm_min;
+x_cm_min = dim_val.x_cm_min; %required
+y_cm_min = dim_val.y_cm_min; %required
 
 %Maximum KOS
-x_cm_max = dim_val.x_cm_max;
-y_cm_max = dim_val.y_cm_max;
+x_cm_max = dim_val.x_cm_max; %required
+y_cm_max = dim_val.y_cm_max; %required
 
 % default values
 %Scaling
