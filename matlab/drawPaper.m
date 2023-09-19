@@ -25,7 +25,7 @@
 
 % Returnvalues 
 % @curax = current chart
-function [curax] = drawPaper(dim_val) 
+function [paper] = drawPaper(dim_val) 
 
 % Value Initialisation dim_val
 
@@ -33,17 +33,34 @@ function [curax] = drawPaper(dim_val)
 x_cm = dim_val.x_cm; %required
 y_cm = dim_val.y_cm; %required
 
+if(x_cm <= 0 || y_cm <= 0)
+    error("Value of the dimensions cant be negative or zero!");
+end
+
+
 %Origin KOS
 x_cm_orig = dim_val.x_cm_orig; %required
 y_cm_orig = dim_val.y_cm_orig; %required
+
+if(x_cm_orig > x_cm || y_cm_orig > y_cm)
+    error("Origin of the COS outreached the dimensions");
+end
 
 %Minimum KOS
 x_cm_min = dim_val.x_cm_min; %required
 y_cm_min = dim_val.y_cm_min; %required
 
+if(x_cm_min <= 0 ||y_cm_min <= 0)
+    error("Value of the minimum COS variable cant be negative or zero!")
+end
+
 %Maximum KOS
 x_cm_max = dim_val.x_cm_max; %required
 y_cm_max = dim_val.y_cm_max; %required
+
+if(x_cm_max >= x_cm || y_cm_max >= y_cm)
+    error("Value of the maximum COS variable outreached the dimensions");
+end
 
 % default values
 %Scaling
@@ -64,20 +81,32 @@ y_shift = 0;
 
 if(isfield(dim_val,'x_scale'))
     x_scale = dim_val.x_scale;
+    if(x_scale <= 0)
+        error("scale value cant be negative or zero");
+    end
     x_noscale = 0;
 end
 if(isfield(dim_val,'y_scale'))
     y_scale = dim_val.y_scale;
+    if(y_scale <= 0)
+        error("scale value cant be negative or zero");
+    end
     y_noscale = 0;
 end
 if(isfield(dim_val,'x_noscale'))
     if(dim_val.x_noscale == 1)
-        x_noscale = 1;
+        x_noscale = 1; % noscale = 1 (true) -> Skala wird nicht angezeigt
+    end
+    if(x_noscale ~= 0 || x_noscale ~= 1)
+        error("x_noscale need to be set to 1 (true) or 0 (false)");
     end
 end
 if(isfield(dim_val,'y_noscale'))
     if(dim_val.y_noscale == 1)
         y_noscale = 1;
+    end
+    if(y_noscale ~= 0 || y_noscale ~= 1)
+        error("y_noscale need to be set to 1 (true) or 0 (false)");
     end
 end
 
@@ -146,10 +175,10 @@ h_cm = (h_pos-y_shift) / y_scale + y_cm_orig;
 plot([0 0],[0 y_cm],"k--");
 hold on;
 for iv = 1:length(v_cm)
-plot([v_cm(iv) v_cm(iv)],[y_cm_min y_cm_max],"k--");
+    plot([v_cm(iv) v_cm(iv)],[y_cm_min y_cm_max],"k--");
 end
 for ih = 1:length(h_cm)
-plot([x_cm_min x_cm_max],[h_cm(ih) h_cm(ih)],"k--");
+    plot([x_cm_min x_cm_max],[h_cm(ih) h_cm(ih)],"k--");
 end
 
 %x-arrow
@@ -219,7 +248,25 @@ if(y_tickres)
 end
 end
 
-curax = gcf; 
+% return values to work with the grid
+paper.fig = gcf;
+paper.x_cm = x_cm;
+paper.y_cm = y_cm;
+paper.x_cm_min = x_cm_min;
+paper.x_cm_max = x_cm_max;
+paper.y_cm_min = y_cm_min;
+paper.y_cm_max = y_cm_max;
+paper.x_min = x_min;
+paper.y_min = y_min;
+paper.x_max = x_max;
+paper.y_max = y_max;
+paper.x_shift = x_shift;
+paper.y_shift = y_shift;
+paper.x_scale = x_scale;
+paper.y_scale = y_scale;
+paper.x_cm_orig = x_cm_orig;
+paper.y_cm_orig = y_cm_orig;
+
 
 end
 
