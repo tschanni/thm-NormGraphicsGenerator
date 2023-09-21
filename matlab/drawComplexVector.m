@@ -21,7 +21,8 @@ realPart = real(z);
 imagPart = imag(z);
 
 % Plot the real and imaginary parts as vectors
-quiver(ax, 0, 0, realPart, imagPart, 0);
+h = quiver(ax, 0, 0, realPart, imagPart, 0);
+set(h,'MaxHeadSize',1/abs(z),'AutoScaleFactor',1); % continious headsize
 
 xlim(ax,[x_min,x_max]);
 ylim(ax,[y_min,y_max]);
