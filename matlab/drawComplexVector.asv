@@ -13,14 +13,14 @@
 %
 % Example:
 %    % Create a grid paper
-%    paper = drawPaper('default',1,'label','real','imag'); % Specify paper dimensions and parameters
+%    paper = drawPaper('default',1); % Specify paper dimensions and parameters
 %
 %    % Define a complex number
 %    z = 3 + 4i; % Example complex number
 %
 %    % Plot the complex number as a vector on the grid paper
 %    drawComplexVector(paper, z);
-%
+
 % See Also:
 %   drawFunction
 %   drawPaper
@@ -30,6 +30,9 @@
 %   https://github.com/tschanni/thm-NormGraphicsGenerator
 
 function drawComplexVector(paper,z)
+% Plots a complex number as a vector in a complex plane.
+% Input:
+%   z (complex number): The complex number to be plotted.
 hold on;
 
 ax = paper.fig.CurrentAxes;

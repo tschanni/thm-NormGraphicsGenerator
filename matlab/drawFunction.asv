@@ -18,7 +18,7 @@
 %
 % Example:
 %    % Create a grid paper
-%    paper = drawPaper('default',1,'label','{\it{t}} / s','{\it{U}} / V'); % Specify paper dimensions and parameters
+%    paper = drawPaper('default',1,'label',''{\it{I}} / A'','imag'); % Specify paper dimensions and parameters
 %
 %    % Define x and y data
 %    x_data = linspace(0, 10, 100); % Example x-data
@@ -30,14 +30,6 @@
 %
 %    % Plot the function on the grid paper
 %    drawFunction(paper, x_data, y_data, 'color', plot_color, 'linestyle', plot_linestyle);
-%
-% See Also:
-%   drawPaper
-%   drawComplexVector
-%   drawArrow
-% 
-% For more Information:
-%   https://github.com/tschanni/thm-NormGraphicsGenerator
 %
 function [] = drawFunction(paper,x,y,varargin)
     %DRAWFUNCTION Summary of this function goes here

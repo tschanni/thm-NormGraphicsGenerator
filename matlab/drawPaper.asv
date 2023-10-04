@@ -38,12 +38,8 @@
 %            You can use this structure to place additional drawings on the
 %            paper. 
 % See Also:
-%   drawFunction
-%   drawComplexVector
-%   drawArrow
-% 
-% For more Information:
-%   https://github.com/tschanni/thm-NormGraphicsGenerator
+%   drawFunction - Function for drawing custom functions on the grid paper
+
 
 function [paper] = drawPaper(varargin) 
 
