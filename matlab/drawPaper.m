@@ -16,8 +16,9 @@
 %                 - x_cm_max: Maximum x-coordinate of the paper
 %                 - y_cm_max: Maximum y-coordinate of the paper
 %
-%    default    - default 1: 15 x 8 cm Grid Paper with 0.5 scale
-%               - default 2: 25 x 22 cm Grid Paper with 0.5 scale
+%    default    - default 1: 8 x 8 cm Grid Paper with 0.5 scale
+%               - default 2: 16 x 8 cm Grid Paper with 0.5 scale
+%               - default 3: 25 x 22 cm Grid Paper with 0.5 scale
 %
 % Name-Value Pairs (optional):
 %    - 'x_scale': Scaling factor for the x-axis (default: 1)
@@ -47,78 +48,148 @@
 
 function [paper] = drawPaper(varargin) 
 
-% default values
-selector = 0;
-starting_arg = 1;
-x_label = '';
-y_label = '';
-h_pos = [];
-v_pos = [];
-%Scaling
-x_noscale = 0;
-x_scale = 1;
-y_noscale = 0;
-y_scale = 1;
+    % default values
+    selector = 0;
+    starting_arg = 1;
+    x_label = '';
+    y_label = '';
+    h_pos = [];
+    v_pos = [];
+    dim_val.init = 0;
+    arg.init = 0;
+    %Scaling
+    x_noscale = 0;
+    x_scale = 1;
+    y_noscale = 0;
+    y_scale = 1;
 
-%Resolution /cm
-x_res = 0.5;
-y_res = 0.5;
-x_tickres = 0;
-y_tickres = 0;
+    %Resolution /cm
+    x_res = 0.5;
+    y_res = 0.5;
+    x_tickres = 0;
+    y_tickres = 0;
 
-%Axis shift
-x_shift = 0;
-y_shift = 0;
+    %Axis shift
+    x_shift = 0;
+    y_shift = 0;
 
-if ischar(varargin{1})
-    for iCount = starting_arg:numel(varargin)
-        switch lower(varargin{iCount})
-            case 'default'
-                iCount = iCount + 1;
-                selector = varargin{iCount};
-            case 'label'
-                iCount = iCount + 1;
-                x_label = varargin{iCount};
-                y_label = varargin{iCount+1};
+    if ischar(varargin{1})
+        for iCount = starting_arg:numel(varargin)
+            switch lower(varargin{iCount})
+                case 'default'
+                    iCount = iCount + 1;
+                    selector = varargin{iCount};
+                case 'x_label'
+                    iCount = iCount + 1;
+                    x_label = varargin{iCount};
+                case 'y_label'
+                    iCount = iCount + 1;
+                    y_label = varargin{iCount};
+                case 'x_scale'
+                    iCount = iCount + 1;
+                    arg.x_scale = varargin{iCount};                
+                case 'y_scale'
+                    iCount = iCount + 1;
+                    arg.y_scale = varargin{iCount};                    
+                case 'x_shift'
+                    iCount = iCount + 1;
+                    arg.x_shift = varargin{iCount};         
+                case 'y_shift'
+                    iCount = iCount + 1;
+                    arg.y_shift = varargin{iCount};    
+                case 'x_cm'
+                    iCount = iCount + 1;
+                    arg.x_cm = varargin{iCount};      
+                case 'y_cm'
+                    iCount = iCount + 1;
+                    arg.y_cm = varargin{iCount};               
+                case 'x_cm_max'
+                    iCount = iCount + 1;
+                    arg.x_cm_max = varargin{iCount};              
+                case 'y_cm_max'
+                    iCount = iCount + 1;
+                    arg.y_cm_max = varargin{iCount};  
+                case 'x_cm_min'
+                    iCount = iCount + 1;
+                    arg.x_cm_min = varargin{iCount};              
+                case 'y_cm_min'
+                    iCount = iCount + 1;
+                    arg.y_cm_min = varargin{iCount};  
+            end 
+        end
+    end
+
+    if selector == 0
+        dim_val = varargin{1,1};
+        % Value Initialisation dim_val
+        %Dimensions 
+        x_cm = dim_val.x_cm; %required
+        y_cm = dim_val.y_cm; %required
+
+        if(x_cm <= 0 || y_cm <= 0)
+            error("Value of the dimensions cant be negative or zero!");
+        end
+
+        %Origin KOS
+        x_cm_orig = dim_val.x_cm_orig; %required
+        y_cm_orig = dim_val.y_cm_orig; %required
+
+        if(x_cm_orig > x_cm || y_cm_orig > y_cm)
+            error("Origin of the COS outreached the dimensions");
+        end
+
+        %Minimum KOS
+        x_cm_min = dim_val.x_cm_min; %required
+        y_cm_min = dim_val.y_cm_min; %required
+
+        if(x_cm_min <= 0 ||y_cm_min <= 0)
+            error("Value of the minimum COS variable cant be negative or zero!")
+        end
+
+        %Maximum KOS
+        x_cm_max = dim_val.x_cm_max; %required
+        y_cm_max = dim_val.y_cm_max; %required
+
+        if(x_cm_max >= x_cm || y_cm_max >= y_cm)
+            error("Value of the maximum COS variable outreached the dimensions");
         end 
+
     end
-end
-
-if selector == 0
-    dim_val = varargin{1,1};
-    % Value Initialisation dim_val
-    %Dimensions 
-    x_cm = dim_val.x_cm; %required
-    y_cm = dim_val.y_cm; %required
-
-    if(x_cm <= 0 || y_cm <= 0)
-        error("Value of the dimensions cant be negative or zero!");
+    
+    if selector == 1
+        x_cm = 8;
+        y_cm = 8; 
+        x_cm_orig =4; 
+        y_cm_orig = 4; 
+        x_cm_min = 1; 
+        y_cm_min = 1; 
+        x_cm_max = 7; 
+        y_cm_max = 7; 
+        x_scale = 0.5;
+        y_scale = 0.5;
+    elseif selector == 2
+        x_cm = 16;
+        y_cm = 8; 
+        x_cm_orig =8; 
+        y_cm_orig = 4; 
+        x_cm_min = 1; 
+        y_cm_min = 1; 
+        x_cm_max = 15; 
+        y_cm_max = 7; 
+        x_scale = 0.5;
+        y_scale = 0.5;
+    elseif selector == 3
+        x_cm = 25;
+        y_cm = 22;
+        x_cm_orig = 8;
+        y_cm_orig = 5;
+        x_cm_min = 1; 
+        y_cm_min = 1; 
+        x_cm_max = 22; 
+        y_cm_max = 20; 
+        x_scale = 0.5;
+        y_scale = 0.5;    
     end
-
-    %Origin KOS
-    x_cm_orig = dim_val.x_cm_orig; %required
-    y_cm_orig = dim_val.y_cm_orig; %required
-
-    if(x_cm_orig > x_cm || y_cm_orig > y_cm)
-        error("Origin of the COS outreached the dimensions");
-    end
-
-    %Minimum KOS
-    x_cm_min = dim_val.x_cm_min; %required
-    y_cm_min = dim_val.y_cm_min; %required
-
-    if(x_cm_min <= 0 ||y_cm_min <= 0)
-        error("Value of the minimum COS variable cant be negative or zero!")
-    end
-
-    %Maximum KOS
-    x_cm_max = dim_val.x_cm_max; %required
-    y_cm_max = dim_val.y_cm_max; %required
-
-    if(x_cm_max >= x_cm || y_cm_max >= y_cm)
-        error("Value of the maximum COS variable outreached the dimensions");
-    end
-
     % check if certain fields are present in dim_val and overrides the default values accordingly
 
     if(isfield(dim_val,'x_scale'))
@@ -127,6 +198,11 @@ if selector == 0
             error("scale value cant be negative or zero");
         end
         x_noscale = 0;
+    elseif(isfield(arg,'x_scale'))
+        x_scale = arg.x_scale;
+        if(x_scale <= 0)
+            error("scale value cant be negative or zero");
+        end
     end
     if(isfield(dim_val,'y_scale'))
         y_scale = dim_val.y_scale;
@@ -134,6 +210,11 @@ if selector == 0
             error("scale value cant be negative or zero");
         end
         y_noscale = 0;
+    elseif(isfield(arg,'y_scale'))
+        y_scale = arg.y_scale;
+        if(x_scale <= 0)
+            error("scale value cant be negative or zero");
+        end
     end
     if(isfield(dim_val,'x_noscale'))
         if(dim_val.x_noscale == 1)
@@ -154,10 +235,14 @@ if selector == 0
 
     if(isfield(dim_val,'x_shift'))
         x_shift = dim_val.x_shift;
+    elseif(isfield(arg,'x_shift'))
+        x_shift = arg.x_shift;
     end
 
     if(isfield(dim_val,'y_shift'))
         y_shift = dim_val.y_shift;
+    elseif(isfield(arg,'y_shift'))
+        y_shift = arg.y_shift;
     end
 
     if(isfield(dim_val,'x_res'))
@@ -176,6 +261,30 @@ if selector == 0
         y_label = dim_val.y_label;
     end
 
+    if(isfield(arg,'x_cm'))
+        x_cm = arg.x_cm;
+    end
+    
+    if(isfield(arg,'y_cm'))
+        y_cm = arg.y_cm;
+    end
+    
+    if(isfield(arg,'x_cm_max'))
+        x_cm_max = arg.x_cm_max;
+    end
+    
+    if(isfield(arg,'y_cm_max'))
+        y_cm_max = arg.y_cm_max;
+    end
+    
+    if(isfield(arg,'x_cm_min'))
+        x_cm_min = arg.x_cm_min;
+    end
+    
+    if(isfield(arg,'y_cm_min'))
+        y_cm_min = arg.y_cm_min;
+    end
+
     %Horizontal Lines (dashed) 
     if(isfield(dim_val,'hline_ypos'))
         h_pos = dim_val.hline_ypos;
@@ -191,31 +300,6 @@ if selector == 0
     if(isfield(dim_val,'y_tickres'))
         y_tickres = dim_val.y_tickres;
     end
-end
-
-if selector == 1
-    x_cm = 15;
-    y_cm = 8; 
-    x_cm_orig =7; 
-    y_cm_orig = 3.5; 
-    x_cm_min = 1; 
-    y_cm_min = 1; 
-    x_cm_max = 14; 
-    y_cm_max = 7; 
-    x_scale = 0.5;
-    y_scale = 0.5;
-elseif selector == 2
-    x_cm = 25;
-    y_cm = 22;
-    x_cm_orig = 8;
-    y_cm_orig = 5;
-    x_cm_min = 1; 
-    y_cm_min = 1; 
-    x_cm_max = 22; 
-    y_cm_max = 20; 
-    x_scale = 0.5;
-    y_scale = 0.5;
-end
 
 % End of Initialisation
 

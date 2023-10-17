@@ -32,12 +32,7 @@ myDim.y_scale = 0.5;
 myDim.x_label = '{\it{t}} / s';
 myDim.y_label = '{\it{I}} / A';
 
-% getParam and setParam functions -> keine return values mehr notwendig
-% Matlab classes verwenden ?
-
-
-paper = drawPaper('default',2);
-% paper = drawPaper(myDim);
+paper = drawPaper(myDim);
 
 x1 = linspace(0,10);
 y1 = 3*x1;
@@ -46,29 +41,9 @@ drawFunction(paper,x1,y1,'color','green');
 x2 = linspace(0,10);
 y2 = cos(x2);
 drawFunction(paper,x2,y2,'color','red','linestyle','--');
- 
-% outdated ?
-% arrows1 = [0,0,4,4];
-% arrows2 = [0,0,4,0];
-% 
-% drawArrow(paper,arrows1,"red");
-% drawArrow(paper,arrows2,"green");
 
-y3 = sin(x2);
-drawFunction(paper,x2,y3);
+legend('f(x)=3x','cos(x)','sin(x)');
 
-z1 = 1 + 2i;
-drawComplexVector(paper,z1);
-
-z2 = 1 - 2i;
-drawComplexVector(paper,z2);
-
-z3 = -1 + 5i;
-drawComplexVector(paper,z3);
-% 
-% legend('f(x)=3x','cos(x)','sin(x)');
-% 
-% 
-% savePlot(paper,"zoom");
+savePlot(paper,"example1");
 
 
