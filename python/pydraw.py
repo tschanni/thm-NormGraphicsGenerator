@@ -3,6 +3,7 @@ import numpy as np
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from matplotlib.ticker import FormatStrFormatter
 from help_funcs import *
+from mpl_toolkits.axisartist.axislines import SubplotZero
 
 
 def drawPaper(
@@ -32,16 +33,13 @@ def drawPaper(
     # x_lim_max =  kwargs.get('x_lim_max',None)
     # y_lim_min =  kwargs.get('y_lim_min',None)
     # y_lim_max =  kwargs.get('y_lim_max',None)   
-
     # scale_interm = kwargs.get('scale_intermediate_ticks',None)
-    
     # x_label = kwargs.get('x_label',None)
     # y_label = kwargs.get('y_label',None)
-    
     # x_shift = kwargs.get('x_shift',None)
     # y_shift = kwargs.get('y_shift',None)
-    
     # default = kwargs.get('default',None)
+
 
     # set default values if not given
     if x_lim_min == None:
@@ -65,17 +63,17 @@ def drawPaper(
 
     # set values/warnings if given
     if x_lim_min != None:
-        if x_lim_min > x_lim_max:
-            print('x_lim_min > x_lim_max')
+        if x_lim_min > 0:
+            print('x_lim_min cant be > 0')
     if x_lim_max != None:   
-        if x_lim_max < x_lim_min:
-            print('x_lim_max < x_lim_min')
+        if x_lim_max < 0:
+            print('x_lim_max cant be < 0')
     if y_lim_min != None:
-        if y_lim_min > y_lim_max:
-            print('y_lim_min > y_lim_max')
+        if y_lim_min > 0:
+            print('y_lim_min cant be > 0')
     if y_lim_max != None:
-        if y_lim_max < y_lim_min:
-            print('y_lim_max < y_lim_min')
+        if y_lim_max < 0:
+            print('y_lim_max cant be < 0')
     if scale_interm != None:
         if scale_interm == True:
             scale_interm = 1
@@ -92,10 +90,15 @@ def drawPaper(
 
     # switch/case for default
     if default == 1:
-        #platzhalter
-        print('default 1')
+        x_lim_min = -1
+        x_lim_max = 7
+        y_lim_min = -1
+        y_lim_max = 7
     elif default == 2:
-        print('default 2')
+        x_lim_min = -1
+        x_lim_max = 7
+        y_lim_min = -4
+        y_lim_max = 4
     elif default == 3:
         print('default 3')
     elif default == None:
@@ -104,6 +107,7 @@ def drawPaper(
         #warning
         print('default',default,'not found')
 
+    # set values
     xlim = x_lim_min, x_lim_max
     ylim = y_lim_min, y_lim_max
 
@@ -111,46 +115,52 @@ def drawPaper(
     height = ylim[1]-ylim[0]
     fig_size = width*inch+offset,height*inch+offset
 
+
     # create figure
     fig = plt.figure(figsize=fig_size,dpi=100, facecolor='w', edgecolor='k')
+    fig.tight_layout()
+
     plt.subplots_adjust(
-        left=-0, 
+        left=0, 
         right=1, 
         top=0.98, 
         bottom=0.02, 
         wspace=0, 
-        hspace=0)
+        hspace=0
+    )
+    
+    # plt.margins(0,0)
     #fig.canvas.draw()
-    ax = plt.gca()
+    
 
     # set up axis
-    ax.spines['left'].set_position('zero')
-    ax.spines['right'].set_color('none')
-    # ax.spines['bottom'].set_position(('data', 6))
-    ax.spines['bottom'].set_position('zero')
-    ax.spines['top'].set_color('none')
+    ax = plt.gca()
+    ax.spines['left'].set_position('zero') # Y-Achses set to zero
+    # ax.spines['left'].set_position(('data', -3))
+    ax.spines['right'].set_color('none') #disabled
+    ax.spines['bottom'].set_position('zero') # X-Achses set to zero
+    # ax.spines['bottom'].set_position(('data', -3))
+    ax.spines['top'].set_color('none') #disabled
     ax.xaxis.set_ticks_position('bottom')
     ax.yaxis.set_ticks_position('left')
-
     ax.set_axisbelow(True)
     ax.set_aspect('equal')
 
     #set bounds
-    ax.set_ybound(ylim[0],ylim[1])
-    ax.set_xbound(xlim[0],xlim[1])
     ax.set_xlim(xlim[0],xlim[1])
     ax.set_ylim(ylim[0],ylim[1])
+    ax.set_ybound(ylim[0],ylim[1])
+    ax.set_xbound(xlim[0],xlim[1])
 
-    # Berechnung der Anzahl der Ticks basierend auf dem gewünschten Abstand
+    # Calculate number of ticks
     desired_tick_spacing = 0.5  # 0,5 cm gewünschter Abstand
     x_num_ticks = int((xlim[1] - xlim[0]) / desired_tick_spacing)
     y_num_ticks = int((ylim[1] - ylim[0]) / desired_tick_spacing)
 
-    # Setzen der Tick-Abstände
+    # Space between ticks
     ax.xaxis.set_major_locator(MultipleLocator((xlim[1] - xlim[0]) / x_num_ticks))
     ax.yaxis.set_major_locator(MultipleLocator((ylim[1] - ylim[0]) / y_num_ticks))
-    # ax.set_xticks(np.arange(xlim[0], xlim[1], grid_size_cm))
-    # ax.set_yticks(np.arange(ylim[0], ylim[1], grid_size_cm))
+    # Grid
     ax.xaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7',zorder=0)
     ax.yaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7')
 
@@ -173,14 +183,26 @@ def drawPaper(
     for n, label in enumerate(ax.yaxis.get_ticklabels()):
         if count_decimal_places(label.get_text()) > scale_interm:
             label.set_visible(False)
+        elif label.get_text() == '0.0':
+            label.set_visible(False)
         else:
             yticklist[n] = replace_decimal_places(label.get_text())
             ax.set_yticklabels(yticklist)
     
-    # only one zero
-    ax.xaxis.get_ticklabels()[1].set_visible(False)
+    # remove last tick label
+    ax.xaxis.get_ticklabels()[-1].set_visible(False)
+    ax.yaxis.get_ticklabels()[-1].set_visible(False)
+  
+
 
     # set labels
     ax.set_xlabel(x_label,fontsize=_fontsize,position=(4,0),loc='right')
     ax.set_ylabel(y_label,fontsize=_fontsize,position=(0,4),loc='top')
-    #ax.xaxis.set_label_coords(.9, -.1)
+
+    ax.xaxis.labelpad = 0
+    ax.yaxis.labelpad = -7 # - -> moving right
+
+
+    # set arrow tips
+    ax.plot(1, 0, ">k", transform=ax.get_yaxis_transform(), clip_on=False)
+    ax.plot(0, 1, "^k", transform=ax.get_xaxis_transform(), clip_on=False)
