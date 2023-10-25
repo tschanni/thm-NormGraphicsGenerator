@@ -1,8 +1,8 @@
-import pydraw as draw
+from pydraw import *
 import matplotlib.pyplot as plt
 import numpy as np
 
-draw.drawPaper(default=3,x_label='t in s',y_label='U in V')
+drawPaper(default=3,x_label='t in s',y_label='U in V',no_scale=False,tick_spacing=5)
 
 # generate x values
 x = np.arange(-2*np.pi,2*np.pi,0.01)

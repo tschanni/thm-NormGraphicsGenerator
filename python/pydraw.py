@@ -13,7 +13,8 @@ def drawPaper(
     scale_interm: bool = None,
     x_label: str = None,
     y_label: str = None,
-    tick_spacing: float = None
+    tick_spacing: float = None,
+    no_scale : bool = False
     ):
 
     # default values 
@@ -42,6 +43,10 @@ def drawPaper(
         y_lim_min_def = -12
         y_lim_max_def = 12
         _def = True
+    # elif default == 4:
+    #     x_lim_min_def = 
+    elif default == None:
+        _def = False
     else:
         #warning
         print('default',default,'not found')
@@ -145,25 +150,27 @@ def drawPaper(
 
     # Calculate number of ticks
     if tick_spacing == None:
-        desired_tick_spacing = 0.5  # 0,5 cm gewünschter Abstand
+        _tick_spacing = 0.5  # 0,5 cm gewünschter Abstand
     else:
-        desired_tick_spacing = tick_spacing
+        _tick_spacing = tick_spacing
         
-    x_num_ticks = int((xlim[1] - xlim[0]) / desired_tick_spacing)
-    y_num_ticks = int((ylim[1] - ylim[0]) / desired_tick_spacing)
+    # x_num_ticks = int((xlim[1] - xlim[0]) / desired_tick_spacing)
+    # y_num_ticks = int((ylim[1] - ylim[0]) / desired_tick_spacing)
 
     # Space between ticks
-    ax.xaxis.set_major_locator(MultipleLocator((xlim[1] - xlim[0]) / x_num_ticks))
-    ax.yaxis.set_major_locator(MultipleLocator((ylim[1] - ylim[0]) / y_num_ticks))
+    # ax.xaxis.set_major_locator(MultipleLocator((xlim[1] - xlim[0]) / x_num_ticks))
+    # ax.yaxis.set_major_locator(MultipleLocator((ylim[1] - ylim[0]) / y_num_ticks))
+    ax.xaxis.set_major_locator(MultipleLocator(0.5))
+    ax.yaxis.set_major_locator(MultipleLocator(0.5))
     # Grid
     ax.xaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7',zorder=0)
     ax.yaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7')
 
     # "Millimeter Papier"
-    # ax.xaxis.set_minor_locator(MultipleLocator( (1/4) / 5 ))
-    # ax.yaxis.set_minor_locator(MultipleLocator( (1/4) / 5 ))
-    # ax.xaxis.grid(True,'minor',linewidth=0.5/DP,linestyle='-',color='#d7d7d7')
-    # ax.yaxis.grid(True,'minor',linewidth=0.5/DP,linestyle='-',color='#d7d7d7')
+    ax.xaxis.set_minor_locator(MultipleLocator(_tick_spacing))
+    ax.yaxis.set_minor_locator(MultipleLocator(_tick_spacing))
+    ax.xaxis.grid(True,'minor',linewidth=0.5,linestyle='-',color='#d7d7d7')
+    ax.yaxis.grid(True,'minor',linewidth=0.5,linestyle='-',color='#d7d7d7')
 
     # Display Tick labels
     xticklist = ax.get_xticks().tolist()
@@ -184,22 +191,30 @@ def drawPaper(
             yticklist[n] = replace_decimal_places(label.get_text())
             ax.set_yticklabels(yticklist)
     
-    # remove last tick label
-    ax.xaxis.get_ticklabels()[-1].set_visible(False)
-    ax.yaxis.get_ticklabels()[-1].set_visible(False)
+    # remove every tick label when no scale is true
+    if no_scale == True:
+        for i, label in enumerate(ax.xaxis.get_ticklabels()):
+            label.set_visible(False)
+        for i, label in enumerate(ax.yaxis.get_ticklabels()):
+            label.set_visible(False)
+
+    else:
+        # remove last tick label
+        ax.xaxis.get_ticklabels()[-1].set_visible(False)
+        ax.yaxis.get_ticklabels()[-1].set_visible(False)
+        ax.xaxis.labelpad = 0
+        ax.yaxis.labelpad = -7 # - -> moving right
 
 
     # set labels
     ax.set_xlabel(x_label,fontsize=_fontsize,position=(4,0),loc='right')
     ax.set_ylabel(y_label,fontsize=_fontsize,position=(0,4),loc='top')
 
-    ax.xaxis.labelpad = 0
-    ax.yaxis.labelpad = -7 # - -> moving right
-
-
     # set arrow tips
     ax.plot(1, 0, ">k", transform=ax.get_yaxis_transform(), clip_on=False)
     ax.plot(0, 1, "^k", transform=ax.get_xaxis_transform(), clip_on=False)
+
+
 
 def drawArgand(z: None):
     # create a polar plot
@@ -235,15 +250,12 @@ def drawArgand(z: None):
             ax.set_yticklabels(yticklist)
 
     # check if type of z is complex or not
-
-
     if isinstance(z, complex):
         plt.polar([0,np.angle(z)],[0,abs(z)],marker='o')
     elif len(z) > 1:
         for x in z:
             # plt.plot([0,z[x].real],[0,z[x].imag],'ro-',label='python')
             plt.polar([0,np.angle(x)],[0,abs(x)],marker='o')
+            # print('x: {:.2f}'.format(x))
     else:
         print('z is not complex or an array')
-
-    plt.show()

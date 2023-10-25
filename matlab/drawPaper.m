@@ -74,6 +74,7 @@ function [paper] = drawPaper(varargin)
     y_shift = 0;
 
     if ischar(varargin{1})
+        arg.init = 1;
         for iCount = starting_arg:numel(varargin)
             switch lower(varargin{iCount})
                 case 'default'
@@ -115,44 +116,33 @@ function [paper] = drawPaper(varargin)
                 case 'y_cm_min'
                     iCount = iCount + 1;
                     arg.y_cm_min = varargin{iCount};  
-            end 
+                case 'x_cm_orig'
+                    iCount = iCount + 1;
+                    arg.x_cm_orig = varargin{iCount};  
+                case 'y_cm_orig'
+                    iCount = iCount + 1;
+                    arg.y_cm_orig = varargin{iCount};  
+            end
         end
     end
-
-    if selector == 0
+    if selector == 0 && arg.init == 0
         dim_val = varargin{1,1};
         % Value Initialisation dim_val
         %Dimensions 
         x_cm = dim_val.x_cm; %required
         y_cm = dim_val.y_cm; %required
 
-        if(x_cm <= 0 || y_cm <= 0)
-            error("Value of the dimensions cant be negative or zero!");
-        end
-
         %Origin KOS
         x_cm_orig = dim_val.x_cm_orig; %required
         y_cm_orig = dim_val.y_cm_orig; %required
-
-        if(x_cm_orig > x_cm || y_cm_orig > y_cm)
-            error("Origin of the COS outreached the dimensions");
-        end
 
         %Minimum KOS
         x_cm_min = dim_val.x_cm_min; %required
         y_cm_min = dim_val.y_cm_min; %required
 
-        if(x_cm_min <= 0 ||y_cm_min <= 0)
-            error("Value of the minimum COS variable cant be negative or zero!")
-        end
-
         %Maximum KOS
         x_cm_max = dim_val.x_cm_max; %required
         y_cm_max = dim_val.y_cm_max; %required
-
-        if(x_cm_max >= x_cm || y_cm_max >= y_cm)
-            error("Value of the maximum COS variable outreached the dimensions");
-        end 
 
     end
     
@@ -284,7 +274,15 @@ function [paper] = drawPaper(varargin)
     if(isfield(arg,'y_cm_min'))
         y_cm_min = arg.y_cm_min;
     end
-
+    
+    if(isfield(arg,'x_cm_orig'))
+        x_cm_orig = arg.x_cm_orig;
+    end
+    
+    if(isfield(arg,'y_cm_orig'))
+        y_cm_orig = arg.y_cm_orig;
+    end
+    
     %Horizontal Lines (dashed) 
     if(isfield(dim_val,'hline_ypos'))
         h_pos = dim_val.hline_ypos;
@@ -302,6 +300,23 @@ function [paper] = drawPaper(varargin)
     end
 
 % End of Initialisation
+
+% warnings
+if(x_cm <= 0 || y_cm <= 0)
+    error("Value of the dimensions cant be negative or zero!");
+end
+
+if(x_cm_orig > x_cm || y_cm_orig > y_cm)
+    error("Origin of the COS outreached the dimensions");
+end
+
+if(x_cm_max >= x_cm || y_cm_max >= y_cm)
+    error("Value of the maximum COS variable outreached the dimensions");
+end 
+
+if(x_cm_min <= 0 ||y_cm_min <= 0)
+    error("Value of the minimum COS variable cant be negative or zero!")
+end
 
 %Calc min/max
 x_min = x_scale * (x_cm_min-x_cm_orig) + x_shift;

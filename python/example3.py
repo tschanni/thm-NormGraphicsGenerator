@@ -1,23 +1,16 @@
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
 import numpy as np
 from pydraw import *
 
+# Variant 1: array of complex numbers
+z1 = [4+4j,14+1j,10+15j]
+# Variant 2: arrange an array of complex numbers
+z2 = np.arange(5) + 1j*np.arange(5,10)
+# Variant 3: one complex number
+z3 = 1+1j
 
-# def argand(a):
-#     for x in range(len(a)):
-#         plt.plot([0,a[x].real],[0,a[x].imag],'ro-',label='python')
-#     limit=np.max(np.ceil(np.absolute(a))) # set limits for axis
-#     plt.xlim((-limit,limit))
-#     plt.ylim((-limit,limit))
-#     plt.ylabel('Imaginary')
-#     plt.xlabel('Real')
-#     plt.show()
+# drawArgand(z1)
+drawArgand(z2)
+# drawArgand(z3)
 
-# a = np.arange(5) + 1j*np.arange(6,11)
-# argand(a)
-# plt.show()
-a = np.arange(5) + 1j*np.arange(6,11)
-z = 5+6j
-print(len(a))
-drawArgand(z)
+plt.show()
