@@ -1,10 +1,23 @@
-import pydraw as draw
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator
 import numpy as np
-
-# draw.drawPaper(x_lim_min=-1,x_lim_max=8,y_lim_min=-4,y_lim_max=4,x_label='real',y_label='imag',scale_interm=0)
-draw.drawPaper()
+from pydraw import *
 
 
-plt.savefig("example3_1.png") # need to be before show()
-plt.show()
+# def argand(a):
+#     for x in range(len(a)):
+#         plt.plot([0,a[x].real],[0,a[x].imag],'ro-',label='python')
+#     limit=np.max(np.ceil(np.absolute(a))) # set limits for axis
+#     plt.xlim((-limit,limit))
+#     plt.ylim((-limit,limit))
+#     plt.ylabel('Imaginary')
+#     plt.xlabel('Real')
+#     plt.show()
+
+# a = np.arange(5) + 1j*np.arange(6,11)
+# argand(a)
+# plt.show()
+a = np.arange(5) + 1j*np.arange(6,11)
+z = 5+6j
+print(len(a))
+drawArgand(z)
