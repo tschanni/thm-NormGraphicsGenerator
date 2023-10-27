@@ -1,12 +1,24 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from pydraw import *
+from scipy import signal
 
-drawPaper(x_lim_min=0,x_lim_max=1.75,y_lim_max=1.5,y_lim_min=-1.5,x_label='t / s',y_label='i / A',tick_spacing=0.25)
-x = np.arange(0,1.5,0.01)
-y = 1*np.sin(2*np.pi*x)
-# create a sin that fits in the x range
+# Example of different waves
 
+drawPaper(x_lim_min=-1,x_lim_max=14.5,y_lim_max=1.5,y_lim_min=-1.5,x_label='t / ms',y_label='u / u\u209C\u1D63')
+
+# create a sine wave
+x = np.arange(0,14,0.01)
+y = np.sin(x)
 plt.plot(x,y)
+
+# create a sawtooth wave 
+y2 = signal.sawtooth(x)
+plt.plot(x,y2)
+
+# create a square wave
+y3 = signal.square(x)
+plt.plot(x,y3)
+
 plt.savefig("example4_1.png")
 plt.show() 

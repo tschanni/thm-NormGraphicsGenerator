@@ -2,6 +2,8 @@ from pydraw import *
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Example of plotting arrows into a diagram as a representation of complex numbers
+
 drawPaper(x_lim_min=-4,x_lim_max=4,y_lim_min=-4,y_lim_max=4,x_label='real',y_label='imag',scale_interm=0)
 
 # draw a arrow (for complex numbers)

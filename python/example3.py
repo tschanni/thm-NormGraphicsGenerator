@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pydraw import *
 
+# Example of an argand diagram with a variation of complex numbers as an input
+
 # Variant 1: array of complex numbers
 z1 = [4+4j,14+1j,10+15j]
 # Variant 2: arrange an array of complex numbers

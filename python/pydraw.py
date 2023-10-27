@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
+from matplotlib.ticker import MultipleLocator, FixedLocator
 from help_funcs import *
 import numpy as np
-
 
 def drawPaper(
     default: int = None,
@@ -16,7 +15,24 @@ def drawPaper(
     tick_spacing: float = None,
     no_scale : bool = False
     ):
+    """
+    Creates a blank canvas for drawing.
 
+    Args:
+        default (int): An optional integer specifying a default canvas configuration.
+        x_lim_min (float): An optional float specifying the minimum x-axis limit.
+        x_lim_max (float): An optional float specifying the maximum x-axis limit.
+        y_lim_min (float): An optional float specifying the minimum y-axis limit.
+        y_lim_max (float): An optional float specifying the maximum y-axis limit.
+        scale_interm (bool): An optional boolean specifying whether to scale intermediate tick labels.
+        x_label (str): An optional string specifying the x-axis label.
+        y_label (str): An optional string specifying the y-axis label.
+        tick_spacing (float): An optional float specifying the tick spacing.
+        no_scale (bool): An optional boolean specifying whether to disable scaling.
+
+    Returns:
+        tuple: A tuple containing the Matplotlib figure and axis objects that can be used as a canvas for drawing.
+    """
     # default values 
     _fontsize = 10
     inch = 1/2.54  # centimeters in inches
@@ -44,7 +60,6 @@ def drawPaper(
         y_lim_max_def = 12
         _def = True
     # elif default == 4:
-    #     x_lim_min_def = 
     elif default == None:
         _def = False
     else:
@@ -132,10 +147,8 @@ def drawPaper(
     # set up axis
     ax = plt.gca()
     ax.spines['left'].set_position('zero') # Y-Achses set to zero
-    # ax.spines['left'].set_position(('data', -3))
     ax.spines['right'].set_color('none') #disabled
     ax.spines['bottom'].set_position('zero') # X-Achses set to zero
-    # ax.spines['bottom'].set_position(('data', -3))
     ax.spines['top'].set_color('none') #disabled
     ax.xaxis.set_ticks_position('bottom')
     ax.yaxis.set_ticks_position('left')
@@ -154,21 +167,19 @@ def drawPaper(
     else:
         _tick_spacing = tick_spacing
         
-    # x_num_ticks = int((xlim[1] - xlim[0]) / desired_tick_spacing)
-    # y_num_ticks = int((ylim[1] - ylim[0]) / desired_tick_spacing)
-
     # Space between ticks
-    # ax.xaxis.set_major_locator(MultipleLocator((xlim[1] - xlim[0]) / x_num_ticks))
-    # ax.yaxis.set_major_locator(MultipleLocator((ylim[1] - ylim[0]) / y_num_ticks))
-    ax.xaxis.set_major_locator(MultipleLocator(0.5))
-    ax.yaxis.set_major_locator(MultipleLocator(0.5))
+    # ax.xaxis.set_major_locator(FixedLocator(np.arange(xlim[0],xlim[1],_tick_spacing)))
+    # ax.yaxis.set_major_locator(FixedLocator(np.arange(ylim[0],ylim[1],_tick_spacing)))
+    ax.xaxis.set_major_locator(MultipleLocator(_tick_spacing))
+    ax.yaxis.set_major_locator(MultipleLocator(_tick_spacing))
+
     # Grid
     ax.xaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7',zorder=0)
     ax.yaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7')
 
     # "Millimeter Papier"
-    ax.xaxis.set_minor_locator(MultipleLocator(_tick_spacing))
-    ax.yaxis.set_minor_locator(MultipleLocator(_tick_spacing))
+    ax.xaxis.set_minor_locator(MultipleLocator(0.5))
+    ax.yaxis.set_minor_locator(MultipleLocator(0.5))
     ax.xaxis.grid(True,'minor',linewidth=0.5,linestyle='-',color='#d7d7d7')
     ax.yaxis.grid(True,'minor',linewidth=0.5,linestyle='-',color='#d7d7d7')
 
@@ -217,12 +228,23 @@ def drawPaper(
 
 
 def drawArgand(z: None):
+    """
+    Creates an Argand diagram for a given array of complex numbers or a single complex number.
+
+    Args:
+        z (numpy.ndarray) | complex: complex number(s)
+
+    Returns:
+        tuple: A tuple containing the Matplotlib figure and axis objects that can be used as a canvas for drawing.
+    """
+
     # create a polar plot
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='polar')
 
     limit = np.max(np.ceil(np.absolute(z))) # set limits for axis
     r = np.array([0, limit])  # set the radius to 0 and 10
+    # set lines for the axis
     ax.plot(np.ones(2) *np.pi / 2, r, color='black')
     ax.plot(-(np.ones(2) * np.pi / 2),r, color='black')
     ax.plot(np.ones(2) * np.pi, r, color='black')
@@ -231,15 +253,17 @@ def drawArgand(z: None):
     # set arrow tips
     ax.plot(np.ones(2) * 0, np.ones(2) * r[-1], ">k", transform=ax.get_yaxis_transform(), clip_on=False)
     ax.plot(np.ones(2) * np.pi * 1.6711, np.ones(2) * r[-1], "^k", transform=ax.get_yaxis_transform(), clip_on=False)
+    
+    # set grid
     # ax.xaxis.set_major_locator(MultipleLocator(1/2))
     ax.yaxis.set_major_locator(MultipleLocator(1/2))
     ax.xaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7',zorder=0)
     ax.yaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7')
+
     # change position of the ticks
     ax.set_rlabel_position(0)  # get radial labels away from plotted line
     # reduce tick labels
     yticklist = ax.get_yticks().tolist()
-
     for n, label in enumerate(ax.yaxis.get_ticklabels()):
         if count_decimal_places(label.get_text()) > 0: # scale_interm var
             label.set_visible(False)

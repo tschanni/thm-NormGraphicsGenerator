@@ -1,24 +1,22 @@
-import matplotlib.pyplot as plt
-
 def count_decimal_places(number):
-    # Konvertiere die Zahl in einen String, um die Nachkommastellen zu extrahieren
+    # convert number to string to extract decimal places
     number_str = str(number)
     
-    # Überprüfe, ob ein Dezimalpunkt vorhanden ist
+    # check if decimal point is present
     if '.' in number_str:
-        # Teile den String anhand des Dezimalpunkts
+        # divide the string into integer and decimal part
         integer_part, decimal_part = number_str.split('.')
         decimal_part = decimal_part.replace('0', '')
-        # Gib die Anzahl der Nachkommastellen zurück
+        # return the length of the decimal part
         return len(decimal_part)
     else:
-        # Wenn kein Dezimalpunkt vorhanden ist, gibt es keine Nachkommastellen
+        # if no decimal point is present, return 0
         return 0
     
 def replace_decimal_places(number):
-    # Konvertiere die Zahl in einen String, um die Nachkommastellen zu extrahieren
+    # convert number to string to extract decimal places
     number_str = str(number)
-    # Überprüfe, ob ein Dezimalpunkt vorhanden ist
+    # check if decimal point is present
     if '.' in number_str:
         integer_part, decimal_part = number_str.split('.')
         decimal_part = decimal_part.replace('0', '')
