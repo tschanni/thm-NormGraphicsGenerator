@@ -4,41 +4,36 @@ By leveraging Matplotlib, the NormGraphicsGenerator empowers educators to create
 ## Project "thm-NormGraphicsGenerator" - Quick Start Guide
 This is a quick start guide for the "thm-NormGraphicsGenerator" project, showing you how to set up and run the project on your local machine.
 
-Prerequisites
-Python 3.x: Make sure Python 3 is installed on your system. You can download and install it from the official Python website.
-Installation
-Clone the project:
+### Prerequisites:
+#### Python 3.x: 
+Make sure Python 3 is installed on your system. You can download and install it from the official Python website.
+#### Matlab R20211a: 
+Make sure Matlab is installed on your system. You can download and get the license on the official Matlab website.
+
+### Clone the project:
 Open your terminal (or command prompt) and run the following command to clone the project from GitHub:
 
-bash
-Copy code
+```bash
 git clone https://github.com/tschanni/thm-NormGraphicsGenerator.git
-Navigate to the project directory:
-Change to the directory of the cloned project:
+```
 
 ### Python 🐍
 
-bash
-Copy code
-cd thm-NormGraphicsGenerator
-Install Dependencies:
+```bash
+cd thm-NormGraphicsGenerator/python
+```
+### Install Dependencies:
 Install the required Python dependencies from the requirements.txt file:
 
-bash
-Copy code
+```bash
 pip install -r requirements.txt
-Running the Application
-After setting up the project, you can run the application:
+```
 
-bash
-Copy code
-python main.py
-The application will start, and you can use its functionality as instructed in the project.
 
-Contributing
+### Contributing
 If you wish to contribute to the development of this project, open an issue or pull request on GitHub.
 
-License
+### License
 This project is released under the MIT License. Please refer to the LICENSE file for more details.
 
 That concludes the quick start guide for the "thm-NormGraphicsGenerator" project. Enjoy developing and using the project!
