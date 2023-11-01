@@ -16,7 +16,8 @@ y2 = np.cos(x2)
 plt.plot(x, y, label='sin')
 plt.plot(x2,y2, label='cos')
 
-# plt.legend(('sin', 'cos'), loc='upper right', shadow=True)
+# get a legend of the sin and cos plot
+plt.legend(loc='upper right', shadow=True)
 
 # save the plot
 plt.savefig("example1_3.png") # need to be before show()

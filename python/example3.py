@@ -15,4 +15,5 @@ z3 = 1+1j
 drawArgand(z2)
 # drawArgand(z3)
 
+plt.savefig("example3_1.png",bbox_inches='tight')
 plt.show()
