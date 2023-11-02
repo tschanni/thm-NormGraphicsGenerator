@@ -132,7 +132,8 @@ def drawPaper(
 
     width = xlim[1]-xlim[0]
     height = ylim[1]-ylim[0]
-    fig_size = width*inch+offset+width_offset,height*inch+offset+height_offset
+    # fig_size = width*inch+offset+width_offset*inch,height*inch+offset+height_offset
+    fig_size = width*inch,height*inch
 
 
     # create figure
@@ -142,8 +143,8 @@ def drawPaper(
     plt.subplots_adjust(
         left=0, 
         right=1, 
-        top=0.98, 
-        bottom=0.02, 
+        top=1, 
+        bottom=0, 
         wspace=0, 
         hspace=0
     )
