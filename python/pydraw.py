@@ -17,8 +17,6 @@ def drawPaper(
     y_tick_spacing: float = 0.5,
     x_tick_multiplicator: int = None,
     y_tick_multiplicator: int = None,
-    width_offset: float = 0,
-    height_offset: float = 0
     ):
     """
     Creates a blank canvas with plaid paper for drawing.
