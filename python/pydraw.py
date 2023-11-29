@@ -17,8 +17,6 @@ def drawPaper(
     y_tick_spacing: float = 0.5,
     x_tick_multiplicator: int = None,
     y_tick_multiplicator: int = None,
-    width_offset: float = 0,
-    height_offset: float = 0
     ):
     """
     Creates a blank canvas with plaid paper for drawing.
@@ -47,7 +45,6 @@ def drawPaper(
     # default values 
     _fontsize = 10
     inch = 1/2.54  # centimeters in inches
-    offset = 0.4*inch
     _def = False
     global fig, ax
 
@@ -132,23 +129,19 @@ def drawPaper(
 
     width = xlim[1]-xlim[0]
     height = ylim[1]-ylim[0]
-    # fig_size = width*inch+offset+width_offset*inch,height*inch+offset+height_offset
     fig_size = width*inch,height*inch
 
 
     # create figure
     fig = plt.figure(figsize=fig_size,dpi=100, facecolor='w', edgecolor='k')
-    fig.tight_layout()
 
     plt.subplots_adjust(
         left=0, 
         right=1, 
         top=1, 
         bottom=0, 
-        wspace=0, 
-        hspace=0
     )
-   
+
     # set up axis
     ax = plt.gca()
     ax.spines['left'].set_position('zero') # Y-Achses set to zero
@@ -160,6 +153,7 @@ def drawPaper(
     ax.set_axisbelow(True)
     ax.set_aspect('equal')
 
+
     #set bounds
     ax.set_xlim(xlim[0],xlim[1])
     ax.set_ylim(ylim[0],ylim[1])
@@ -167,8 +161,8 @@ def drawPaper(
     ax.set_xbound(xlim[0],xlim[1])
         
     # Space between ticks
-    ax.xaxis.set_major_locator(MultipleLocator(x_tick_spacing))
-    ax.yaxis.set_major_locator(MultipleLocator(y_tick_spacing))
+    ax.xaxis.set_major_locator(MultipleLocator(x_tick_spacing)) # default value = 0.5
+    ax.yaxis.set_major_locator(MultipleLocator(y_tick_spacing)) # default value = 0.5
     ax.xaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7',zorder=0)
     ax.yaxis.grid(True,'major',linewidth=1,linestyle='-',color='#d7d7d7')
 
@@ -181,30 +175,31 @@ def drawPaper(
     # Display Tick labels
     xticklist = ax.get_xticks().tolist()
     for n, label in enumerate(ax.xaxis.get_ticklabels()):
-        if count_decimal_places(label.get_text()) > scale_interm:
+        if count_decimal_places(label.get_text()) > scale_interm: # if scale_interm = 1 -> label on every tick
             label.set_visible(False)
         elif x_tick_multiplicator != None:
             xticklist[n] = x_tick_multiplicator * xticklist[n]
             xticklist[n] = replace_decimal_places(xticklist[n])
             ax.set_xticklabels(xticklist)
         else:
-            xticklist[n] = replace_decimal_places(label.get_text())
+            xticklist[n] = replace_decimal_places(label.get_text()) # replace the '0' as a decimal place
             ax.set_xticklabels(xticklist)
 
     yticklist = ax.get_yticks().tolist()
     for n, label in enumerate(ax.yaxis.get_ticklabels()):
         if count_decimal_places(label.get_text()) > scale_interm:
             label.set_visible(False)
-        elif label.get_text() == '0.0':
+        elif label.get_text() == '0.0': # replace the 0 on the y-axis
             label.set_visible(False)
         elif y_tick_multiplicator != None:
             yticklist[n] = y_tick_multiplicator * yticklist[n]
             yticklist[n] = replace_decimal_places(yticklist[n])
             ax.set_yticklabels(yticklist)
         else:
-            yticklist[n] = replace_decimal_places(label.get_text())
+            yticklist[n] = replace_decimal_places(label.get_text()) # replace the '0' as a decimal place
             ax.set_yticklabels(yticklist)
 
+    # remove all ticks when no_scale is true
     if no_scale == True:
         for i, label in enumerate(ax.xaxis.get_ticklabels()):
             label.set_visible(False)
@@ -225,6 +220,7 @@ def drawPaper(
     # set arrow tips
     ax.plot(1, 0, ">k", transform=ax.get_yaxis_transform(), clip_on=False)
     ax.plot(0, 1, "^k", transform=ax.get_xaxis_transform(), clip_on=False)
+
 
 
 def drawArgand(z: None):
