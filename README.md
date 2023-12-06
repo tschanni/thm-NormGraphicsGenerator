@@ -34,6 +34,6 @@ pip install -r requirements.txt
 If you wish to contribute to the development of this project, open an issue or pull request on GitHub.
 
 ### License
-This project is released under the MIT License. Please refer to the LICENSE file for more details.
+This project is released under the BSD-2-Cause license. Please refer to the LICENSE file for more details.
 
 That concludes the quick start guide for the "thm-NormGraphicsGenerator" project. Enjoy developing and using the project!
